@@ -1,0 +1,46 @@
+# Maven
+target/
+*.jar
+*.war
+*.ear
+.m2/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.iml
+
+# Spring Boot
+*.class
+*.log
+application-*.yml
+application-*.yaml
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Claude Code
+.claude/
+.claudeignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+build/
+dist/
+*.o
+*.so
+
+# Temporary files
+*.tmp
+.classpath
+.project
+.settings/
