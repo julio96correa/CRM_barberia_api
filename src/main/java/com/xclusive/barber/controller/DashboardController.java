@@ -21,8 +21,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/dashboard")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
-@Tag(name = "Dashboard", description = "Admin dashboard statistics")
+@PreAuthorize("hasAnyRole('ADMIN', 'BARBER')")
+@Tag(name = "Dashboard", description = "Admin/Barber dashboard statistics")
 @SecurityRequirement(name = "bearerAuth")
 public class DashboardController {
 
@@ -42,6 +42,7 @@ public class DashboardController {
 
     @Operation(summary = "Get top 5 services by appointment count")
     @GetMapping("/top-services")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<List<TopServiceResponse>>> getTopServices() {
         return ResponseEntity.ok(ApiResponse.ok("Top services", dashboardService.getTopServices()));
     }
