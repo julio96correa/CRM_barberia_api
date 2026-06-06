@@ -27,4 +27,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     boolean existsByBarberProfileIdAndAppointmentDateAndStartHour(Long barberProfileId, LocalDate appointmentDate, Integer startHour);
 
     long countByClientProfileIdAndStatus(Long clientProfileId, AppointmentStatus status);
+
+    long countByAppointmentDate(LocalDate date);
+
+    @Query("SELECT a.service.id, a.service.name, COUNT(a) as total FROM Appointment a GROUP BY a.service.id, a.service.name ORDER BY total DESC")
+    List<Object[]> findTopServices(Pageable pageable);
 }
