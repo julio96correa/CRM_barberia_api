@@ -28,7 +28,7 @@ import java.util.List;
 public class GeminiService {
 
     private static final String GEMINI_URL =
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
     private static final String FALLBACK_MESSAGE =
             "Lo sentimos, en este momento no podemos procesar tu solicitud. Contáctanos al número de WhatsApp para agendar tu cita.";
 
@@ -42,6 +42,7 @@ public class GeminiService {
 
     public ChatResponse sendMessage(ChatRequest request) {
         try {
+            log.info("Using API key: {}***", apiKey.substring(0, Math.min(10, apiKey.length())));
             String url = GEMINI_URL + "?key=" + apiKey;
 
             ObjectNode payload = objectMapper.createObjectNode();
