@@ -1,6 +1,7 @@
 package com.xclusive.barber.service;
 
 import com.xclusive.barber.dto.appointment.AppointmentResponse;
+import com.xclusive.barber.dto.client.ClientResponse;
 import com.xclusive.barber.dto.dashboard.DashboardSummaryResponse;
 import com.xclusive.barber.dto.dashboard.TodayResponse;
 import com.xclusive.barber.dto.dashboard.TopServiceResponse;
@@ -64,8 +65,18 @@ public class DashboardService {
                 .toList();
     }
 
-    public List<ClientProfile> getInactiveClients() {
+    public List<ClientResponse> getInactiveClients() {
         LocalDateTime cutoff = LocalDateTime.now().minusDays(21);
-        return clientProfileRepository.findInactiveSince(cutoff);
+        return clientProfileRepository.findInactiveSince(cutoff).stream()
+                .map(c -> ClientResponse.builder()
+                        .id(c.getId())
+                        .email(c.getUser().getEmail())
+                        .phone(c.getPhone())
+                        .notes(c.getNotes())
+                        .loyaltyPoints(c.getLoyaltyPoints())
+                        .tier(c.getTier())
+                        .lastCompletedAt(c.getLastCompletedAt())
+                        .build())
+                .toList();
     }
 }

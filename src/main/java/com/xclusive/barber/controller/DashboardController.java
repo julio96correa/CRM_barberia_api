@@ -3,8 +3,8 @@ package com.xclusive.barber.controller;
 import com.xclusive.barber.dto.ApiResponse;
 import com.xclusive.barber.dto.dashboard.DashboardSummaryResponse;
 import com.xclusive.barber.dto.dashboard.TodayResponse;
+import com.xclusive.barber.dto.client.ClientResponse;
 import com.xclusive.barber.dto.dashboard.TopServiceResponse;
-import com.xclusive.barber.entity.ClientProfile;
 import com.xclusive.barber.service.DashboardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -49,7 +49,7 @@ public class DashboardController {
 
     @Operation(summary = "Get clients inactive for more than 21 days")
     @GetMapping("/inactive-clients")
-    public ResponseEntity<ApiResponse<List<ClientProfile>>> getInactiveClients() {
+    public ResponseEntity<ApiResponse<List<ClientResponse>>> getInactiveClients() {
         return ResponseEntity.ok(ApiResponse.ok("Inactive clients", dashboardService.getInactiveClients()));
     }
 }
