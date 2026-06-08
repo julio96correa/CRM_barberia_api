@@ -62,7 +62,7 @@ public class ChatbotController {
                 request.barberId(),
                 request.serviceId(),
                 request.appointmentDate(),
-                request.startHour()
+                String.format("%02d:00", request.startHour())
         );
 
         AppointmentResponse response = appointmentService.createAppointment(apptRequest);
