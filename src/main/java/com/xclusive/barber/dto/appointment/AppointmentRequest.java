@@ -6,6 +6,6 @@ public record AppointmentRequest(
         Long clientId,
         Long barberId,
         Long serviceId,
-        LocalDate appointmentDate,
-        Integer startHour
+        LocalDate date,
+        String startTime
 ) {}

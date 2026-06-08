@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -34,8 +35,10 @@ public class AppointmentService {
 
     @Transactional
     public AppointmentResponse createAppointment(AppointmentRequest request) {
+        int startHour = LocalTime.parse(request.startTime()).getHour();
+
         if (appointmentRepository.existsByBarberProfileIdAndAppointmentDateAndStartHour(
-                request.barberId(), request.appointmentDate(), request.startHour())) {
+                request.barberId(), request.date(), startHour)) {
             throw new InvalidOperationException("Slot no disponible");
         }
 
@@ -50,8 +53,8 @@ public class AppointmentService {
                 .clientProfile(client)
                 .barberProfile(barber)
                 .service(service)
-                .appointmentDate(request.appointmentDate())
-                .startHour(request.startHour())
+                .appointmentDate(request.date())
+                .startHour(startHour)
                 .status(AppointmentStatus.PENDING)
                 .build();
 
