@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +45,18 @@ public class BarberService {
                 .orElseThrow(() -> new ResourceNotFoundException("Barber not found: " + barberId));
 
         for (BarberScheduleRequest req : requests) {
-            BarberSchedule schedule = barberScheduleRepository
-                    .findByBarberProfileIdAndDayOfWeek(barberId, req.getDayOfWeek())
-                    .orElse(BarberSchedule.builder().barberProfile(barber).dayOfWeek(req.getDayOfWeek()).build());
+            int dayInt = DayOfWeek.valueOf(req.getDayOfWeek().toUpperCase()).ordinal();
+            int startHour = LocalTime.parse(req.getStartTime()).getHour();
+            int endHour = LocalTime.parse(req.getEndTime()).getHour();
 
-            schedule.setStartHour(req.getStartHour());
-            schedule.setEndHour(req.getEndHour());
+            BarberSchedule schedule = barberScheduleRepository
+                    .findByBarberProfileIdAndDayOfWeek(barberId, dayInt)
+                    .orElse(BarberSchedule.builder().barberProfile(barber).dayOfWeek(dayInt).build());
+
+            schedule.setStartHour(startHour);
+            schedule.setEndHour(endHour);
             schedule.setBreakStartHour(req.getBreakStartHour());
-            schedule.setIsAvailable(req.getIsAvailable());
+            schedule.setIsAvailable(req.getAvailable());
             barberScheduleRepository.save(schedule);
         }
     }
@@ -69,6 +75,7 @@ public class BarberService {
         barberScheduleRepository.save(schedule);
     }
 
+    @Transactional(readOnly = true)
     public BarberAvailabilityResponse getAvailableSlots(Long barberId, LocalDate date) {
         barberProfileRepository.findById(barberId)
                 .orElseThrow(() -> new ResourceNotFoundException("Barber not found: " + barberId));
