@@ -22,7 +22,7 @@ public class SwaggerConfig {
                         .description("API REST para gestión de barbería: citas, clientes, lealtad y chatbot IA"))
                 .servers(List.of(
                         new Server().url("http://localhost:8080/api").description("Local"),
-                        new Server().url("https://xclusive-barber-api.onrender.com/api").description("Render (Producción)")
+                        new Server().url("https://crm-barberia-api.onrender.com/api").description("Render (Producción)")
                 ))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth", new SecurityScheme()
