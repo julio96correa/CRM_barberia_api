@@ -63,7 +63,7 @@ class AppointmentServiceTest {
     @Test
     void testCreateAppointment_success() {
         LocalDate date = LocalDate.of(2025, 7, 1);
-        AppointmentRequest request = new AppointmentRequest(1L, 2L, 3L, date, 10);
+        AppointmentRequest request = new AppointmentRequest(1L, 2L, 3L, date, "10:00");
 
         when(appointmentRepository.existsByBarberProfileIdAndAppointmentDateAndStartHour(2L, date, 10))
                 .thenReturn(false);
@@ -87,7 +87,7 @@ class AppointmentServiceTest {
     @Test
     void testCreateAppointment_slotOccupied() {
         LocalDate date = LocalDate.of(2025, 7, 1);
-        AppointmentRequest request = new AppointmentRequest(1L, 2L, 3L, date, 10);
+        AppointmentRequest request = new AppointmentRequest(1L, 2L, 3L, date, "10:00");
 
         when(appointmentRepository.existsByBarberProfileIdAndAppointmentDateAndStartHour(2L, date, 10))
                 .thenReturn(true);
